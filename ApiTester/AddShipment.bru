@@ -1,0 +1,21 @@
+meta {
+  name: AddShipment
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:5127/shipments/add
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "TrackingNumber":"020207021381214",
+  }
+}
+
+settings {
+  encodeUrl: true
+}

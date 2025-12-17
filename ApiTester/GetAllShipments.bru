@@ -1,0 +1,21 @@
+meta {
+  name: GetAllShipments
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:5127/shipments/list
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    
+  }
+}
+
+settings {
+  encodeUrl: true
+}

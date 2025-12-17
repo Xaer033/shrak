@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Shrak.Models;
 using Shrak.DatabaseContexts;
 using Shrak.Services;
+using Shrak.Services.Couriers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,10 @@ builder.Services.AddDbContext<IShipmentDbContext, ShipmentDbContext>(option =>
 });
 
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
+builder.Services.AddTransient<ICourier, FedExCourier>();
+builder.Services.AddTransient<ICourier, UPSCourier>();
+builder.Services.AddTransient<ICourier, UPSCourier>();
+builder.Services.AddTransient<CourierFactory>();
 
 var settings = new Settings();
 builder.Configuration.Bind("Settings", settings);

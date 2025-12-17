@@ -7,17 +7,17 @@ using Shrak.Services;
 namespace LaneCheckServer.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("shipments")]
 public class ShipmentController : StateController   
 {
-    private readonly IShipmentService _laneService;
+    private readonly IShipmentService _shipmentService;
     
     public ShipmentController(
-        IShipmentService laneService,
+        IShipmentService shipmentService,
         IShipmentDbContext dbContext,
         ILogger<StateController> logger) : base(dbContext, logger)
     {
-        _laneService = laneService;
+        _shipmentService = shipmentService;
     }
 
     [HttpGet("list")]
@@ -27,7 +27,20 @@ public class ShipmentController : StateController
         
         var actionResult = await ProcessRequestAsync(request, response, async () =>
         {
-            response.ShipmentList = await _laneService.GetAllShipments();
+            response.ShipmentList = await _shipmentService.GetAllShipments();
+        });
+        
+        return actionResult;
+    }
+    
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshShipmentTracking([FromBody] RefreshShipmentTrackingRequest request)
+    {
+        var response = new RefreshShipmentTrackingResponse();
+        
+        var actionResult = await ProcessRequestAsync(request, response, async () =>
+        {
+            response.TrackingInfoList = await _shipmentService.RefreshAllShipments();
         });
         
         return actionResult;
@@ -40,7 +53,7 @@ public class ShipmentController : StateController
         
         var actionResult = await ProcessRequestAsync(request, response, async () =>
         {
-            response.Shipment = await _laneService.AddShipment(request.TrackingNumber);
+            response.Shipment = await _shipmentService.AddShipment(request.TrackingNumber, request.OverrideCourierType);
         });
         
         return actionResult;
@@ -53,7 +66,7 @@ public class ShipmentController : StateController
         
         var actionResult = await ProcessRequestAsync(request, response, async () =>
         {
-            await _laneService.RemoveShipment(request.ShipmentId);
+            await _shipmentService.RemoveShipment(request.ShipmentId);
         });
         
         return actionResult;

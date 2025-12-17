@@ -8,9 +8,10 @@ public class Shipment
     public int Id { get; set; }
     [Required]
     public string? TrackingNumber { get; set; }
-    public string? Carrier { get; set; }
     public string? Nickname { get; set; }
+    public CourierType CourierType { get; set; }
     public ShipmentStatus Status { get; set; }
+    public DateTime CreatedTimestamp { get; set; }
     public DateTime LastUpdated { get; set; }
 }
 
@@ -24,7 +25,7 @@ public enum ShipmentStatus
     Delivered,
 }
 
-public enum Carrier
+public enum CourierType
 {
     None,
     UPS,
