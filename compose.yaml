@@ -1,0 +1,7 @@
+﻿services:
+  shrak-backend:
+    image: shrak-backend
+    build:
+      context: .
+      dockerfile: shrak-backend/Dockerfile
+

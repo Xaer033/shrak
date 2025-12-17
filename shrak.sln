@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{478F48A9-8FD5-4BB9-B2B6-57C3AC0F264E}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shrak-backend", "shrak-backend\shrak-backend.csproj", "{406B9267-24A7-41D6-8612-FA5B57C94B97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{925FEE2A-1E69-435A-830B-4BC72A307638} = {925FEE2A-1E69-435A-830B-4BC72A307638}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shared-dll", "shared-dll\shared-dll.csproj", "{925FEE2A-1E69-435A-830B-4BC72A307638}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{406B9267-24A7-41D6-8612-FA5B57C94B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{406B9267-24A7-41D6-8612-FA5B57C94B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{406B9267-24A7-41D6-8612-FA5B57C94B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{406B9267-24A7-41D6-8612-FA5B57C94B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925FEE2A-1E69-435A-830B-4BC72A307638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925FEE2A-1E69-435A-830B-4BC72A307638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925FEE2A-1E69-435A-830B-4BC72A307638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925FEE2A-1E69-435A-830B-4BC72A307638}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
