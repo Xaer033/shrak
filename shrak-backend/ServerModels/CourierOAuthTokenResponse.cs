@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Shrak.Protocols;
 
-public class OAuthTokenResponse
+public class CourierOAuthTokenResponse
 {
     [JsonProperty("access_token")]
     public string AccessToken { get; set; } = null!;

@@ -13,16 +13,24 @@ builder.Services.AddDbContext<IShipmentDbContext, ShipmentDbContext>(option =>
     option.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection"));
 });
 
-builder.Services.AddHttpClient<IFedExAuthService, FedExAuthService>();
+builder.Services.AddHttpClient<ICourierAuthService, FedExAuthService>();
+builder.Services.AddHttpClient<ICourierAuthService, UpsAuthService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
+
 builder.Services.AddHttpClient<FedExCourier>(client =>
 {
     client.BaseAddress = new Uri(
         builder.Configuration["CourierApis:FedEx:BaseUrl"]!);
 });
+builder.Services.AddHttpClient<UpsCourier>(client =>
+{
+    client.BaseAddress = new Uri(
+        builder.Configuration["CourierApis:UPS:BaseUrl"]!);
+});
 
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
 builder.Services.AddScoped<ICourier>(sp => sp.GetRequiredService<FedExCourier>());
-// builder.Services.AddScoped<ICourier>(sp => sp.GetRequiredService<UPSCourier>());
+builder.Services.AddScoped<ICourier>(sp => sp.GetRequiredService<UpsCourier>());
 builder.Services.AddScoped<CourierFactory>();
 
 var settings = new Settings();

@@ -11,11 +11,11 @@ public class FedExCourier : ICourier
     
     private readonly ILogger<FedExCourier> _logger;
     private readonly HttpClient _http;
-    private readonly IFedExAuthService _auth;
+    private readonly IAuthService _auth;
 
     public FedExCourier(
         HttpClient http,
-        IFedExAuthService auth,
+        IAuthService auth,
         ILogger<FedExCourier> logger)
     {
         _http = http;
@@ -25,7 +25,7 @@ public class FedExCourier : ICourier
 
     public async Task<TrackingInfo> GetTrackingInfoAsync(Shipment shipment)
     {
-        var token = await _auth.GetAccessTokenAsync();
+        var token = await _auth.GetAccessTokenAsync(shipment.CourierType);
         
         var request = new HttpRequestMessage(
             HttpMethod.Post,
