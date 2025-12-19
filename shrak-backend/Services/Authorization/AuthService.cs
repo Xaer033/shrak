@@ -1,10 +1,11 @@
+using Shrak.Errors;
 using Shrak.Models;
 
 namespace Shrak.Services.Couriers;
 
 public interface IAuthService
 {
-    Task<string> GetAccessTokenAsync(CourierType courierType);
+    Task<string> GetOrRequestAccessTokenAsync(CourierType courierType);
 }
 
 public class AuthService : IAuthService
@@ -16,10 +17,10 @@ public class AuthService : IAuthService
         _authServices = authServices.ToDictionary(a => a.CourierType);
     }
 
-    public Task<string> GetAccessTokenAsync(CourierType courierType)
+    public Task<string> GetOrRequestAccessTokenAsync(CourierType courierType)
     {
         if (!_authServices.TryGetValue(courierType, out var service))
-            throw new NotSupportedException($"Carrier {courierType} not supported");
+            throw new UnsupportedCourierException(courierType); 
 
         return service.GetAccessTokenAsync();
     }

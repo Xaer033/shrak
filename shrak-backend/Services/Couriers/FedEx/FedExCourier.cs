@@ -25,7 +25,7 @@ public class FedExCourier : ICourier
 
     public async Task<TrackingInfo> GetTrackingInfoAsync(Shipment shipment)
     {
-        var token = await _auth.GetAccessTokenAsync(shipment.CourierType);
+        var token = await _auth.GetOrRequestAccessTokenAsync(shipment.CourierType);
         
         var request = new HttpRequestMessage(
             HttpMethod.Post,
