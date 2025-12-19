@@ -9,7 +9,7 @@ namespace Shrak.Services;
 
 public interface IShipmentService
 {
-    Task<Shipment> AddShipment(string trackingNumber, CourierType overrideCourierType);
+    Task<Shipment> AddShipment(string trackingNumber, string nickname, CourierType overrideCourierType);
     Task RemoveShipment(int shipmentId);
     Task<IReadOnlyList<Shipment>> GetAllShipments();
     Task<IReadOnlyList<TrackingInfo>> RefreshAllShipments();
@@ -17,7 +17,7 @@ public interface IShipmentService
 
 public class ShipmentService(IShipmentDbContext context, CourierFactory courierFactory) : IShipmentService
 {
-    public async Task<Shipment> AddShipment(string trackingNumber, CourierType overrideCourierType)
+    public async Task<Shipment> AddShipment(string trackingNumber, string nickname, CourierType overrideCourierType)
     {
         var now = DateTime.UtcNow;
         
@@ -28,6 +28,7 @@ public class ShipmentService(IShipmentDbContext context, CourierFactory courierF
         var shipment = new Shipment
         {
             TrackingNumber = trackingNumber,
+            Nickname = nickname,
             Status = ShipmentStatus.Unknown,
             CourierType = courierType, 
             CreatedTimestamp = now, 
@@ -58,7 +59,7 @@ public class ShipmentService(IShipmentDbContext context, CourierFactory courierF
     public async Task<IReadOnlyList<TrackingInfo>> RefreshAllShipments()
     { 
         var shipments = await GetSavedShipments();
-        var tasks = shipments.Select(TrackSafelyAsync).ToList();
+        var tasks = shipments.Select(GetTrackingInfoAsync).ToList();
         return await Task.WhenAll(tasks);
     }
 
@@ -67,17 +68,17 @@ public class ShipmentService(IShipmentDbContext context, CourierFactory courierF
         return await context.Shipments.ToListAsync();
     }
     
-    private async Task<TrackingInfo> TrackSafelyAsync(Shipment shipment)
+    private async Task<TrackingInfo> GetTrackingInfoAsync(Shipment shipment)
     {
         var info = new TrackingInfo();
         try
         {
             var courier = courierFactory.GetCourier(shipment.CourierType);
-            return await courier.GetTrackingInfoAsync(shipment.TrackingNumber);
+            return await courier.GetTrackingInfoAsync(shipment);
         }
         catch (Exception ex)
         {
-            info.ErrorMessage = ex.Message;
+            info.ExceptionMessage = $"Error for shipment {shipment} | {ex.Message}";
             return info;
         }
     }

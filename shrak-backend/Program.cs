@@ -13,15 +13,26 @@ builder.Services.AddDbContext<IShipmentDbContext, ShipmentDbContext>(option =>
     option.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection"));
 });
 
+builder.Services.AddHttpClient<IFedExAuthService, FedExAuthService>();
+builder.Services.AddHttpClient<FedExCourier>(client =>
+{
+    client.BaseAddress = new Uri(
+        builder.Configuration["CourierApis:FedEx:BaseUrl"]!);
+});
+
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
-builder.Services.AddTransient<ICourier, FedExCourier>();
-builder.Services.AddTransient<ICourier, UPSCourier>();
-builder.Services.AddTransient<ICourier, UPSCourier>();
-builder.Services.AddTransient<CourierFactory>();
+builder.Services.AddScoped<ICourier>(sp => sp.GetRequiredService<FedExCourier>());
+// builder.Services.AddScoped<ICourier>(sp => sp.GetRequiredService<UPSCourier>());
+builder.Services.AddScoped<CourierFactory>();
 
 var settings = new Settings();
 builder.Configuration.Bind("Settings", settings);
 builder.Services.AddSingleton(settings);
+
+var courierConfigs = builder.Configuration
+    .GetSection("CourierApis")
+    .Get<Dictionary<string, CourierApiOptions>>();
+builder.Services.AddSingleton(courierConfigs);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

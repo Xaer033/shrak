@@ -1,3 +1,4 @@
+using Shrak.Errors;
 using Shrak.Models;
 
 namespace Shrak.Services.Couriers;
@@ -13,6 +14,6 @@ public class CourierFactory
     public ICourier GetCourier(CourierType courierType)
     {
         return _couriers.FirstOrDefault(e => e.CourierType == courierType)
-               ?? throw new NotSupportedException();
+               ?? throw new UnsupportedCourierException(courierType); 
     }
 }

@@ -13,6 +13,12 @@ public class Shipment
     public ShipmentStatus Status { get; set; }
     public DateTime CreatedTimestamp { get; set; }
     public DateTime LastUpdated { get; set; }
+
+
+    public override string ToString()
+    {
+        return $"Shipment {Id} | Name: {Nickname} | Tracking #: {TrackingNumber}";
+    }
 }
 
 public enum ShipmentStatus 

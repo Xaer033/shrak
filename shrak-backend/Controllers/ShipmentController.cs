@@ -53,7 +53,7 @@ public class ShipmentController : StateController
         
         var actionResult = await ProcessRequestAsync(request, response, async () =>
         {
-            response.Shipment = await _shipmentService.AddShipment(request.TrackingNumber, request.OverrideCourierType);
+            response.Shipment = await _shipmentService.AddShipment(request.TrackingNumber, request.Nickname, request.OverrideCourierType);
         });
         
         return actionResult;

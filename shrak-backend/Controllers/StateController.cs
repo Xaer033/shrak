@@ -37,13 +37,23 @@ public abstract class StateController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, $"Error processing request: {request}");
-            
-            var backendException = e as BackendException;
-            var error = backendException?.Error ?? new Error();
+            _logger.LogError(e, $"Error processing request: {request} | {e.Message}");
 
             if (response != null)
-                response.Error = error;
+            {
+                if (e is BackendException backendException)
+                {
+                    var error = backendException?.Error;
+                    response.Error = error;
+                }
+                else
+                {
+                    response.Error = new Error
+                    {
+                        Message = e.Message
+                    };
+                }
+            }
             
             return BadRequest(response);
         }

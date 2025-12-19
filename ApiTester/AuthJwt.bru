@@ -1,0 +1,21 @@
+meta {
+  name: AuthJwt
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://apis-sandbox.fedex.com/oauth/token
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  grant_type: client_credentials
+  client_id: l737b0e9e7e348484cbc4697e085d15d13
+  client_secret: c7a7861c2d9349a8849331ccd55db72e
+}
+
+settings {
+  encodeUrl: true
+}

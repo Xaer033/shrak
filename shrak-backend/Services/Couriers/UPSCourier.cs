@@ -4,22 +4,11 @@ namespace Shrak.Services.Couriers;
 
 public class UPSCourier : ICourier
 {
-    public CourierType CourierType => CourierType.FedEx;
+    public CourierType CourierType => CourierType.UPS;
     
-    public Task<string> GetBearerTokenAsync()
+    public Task<TrackingInfo> GetTrackingInfoAsync(Shipment shipment)
     {
-        return Task.FromResult<string>("Poop"); 
-    }
-
-    public Task<TrackingInfo> GetTrackingInfoAsync(string? trackingNumber)
-    {
-        var trackingInfo = new TrackingInfo
-        {
-            Message = "UPS Info",
-            ErrorCode = "none",
-            ErrorMessage = "none",
-            RawJson = "big-blob-of-json",
-        };
+        var trackingInfo = new TrackingInfo();
         return Task.FromResult(trackingInfo);
     }
 }

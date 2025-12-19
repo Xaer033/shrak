@@ -16,8 +16,13 @@ public class BackendException : Exception
     {
         return new BackendException()
         {
-            Error = new T(),
+            Error = new T()
+            {
+                Message = typeof(T).Name
+            }
         };
     }
+
+    public override string Message => Error != null ? $"{Error.GetType()}|{Error}" : base.Message;
 }
 
