@@ -4,5 +4,5 @@ namespace Shrak.Protocols;
 
 public class GetAllShipmentsResponse : Response
 {
-    public IReadOnlyList<Shipment>? ShipmentList { get; set; }
+    public IReadOnlyList<Shipment> ShipmentList { get; set; }
 }

@@ -4,5 +4,5 @@ namespace Shrak.Protocols;
 
 public class RefreshShipmentTrackingResponse : Response
 {
-    public IReadOnlyList<TrackingInfo>? TrackingInfoList { get; set; }
+    public IReadOnlyList<TrackingInfo> TrackingInfoList { get; set; }
 }

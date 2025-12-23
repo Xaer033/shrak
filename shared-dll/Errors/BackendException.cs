@@ -2,9 +2,9 @@ namespace Shrak.Errors;
 
 public class BackendException : Exception
 {
-    public Error? Error { get; set; }
+    public Error Error { get; set; }
 
-    public static BackendException Create(Error? error)
+    public static BackendException Create(Error error)
     {
         return new BackendException()
         {

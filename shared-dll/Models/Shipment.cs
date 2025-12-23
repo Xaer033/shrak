@@ -7,8 +7,8 @@ public class Shipment
     [Key]
     public int Id { get; set; }
     [Required]
-    public string? TrackingNumber { get; set; }
-    public string? Nickname { get; set; }
+    public string TrackingNumber { get; set; }
+    public string Nickname { get; set; }
     public CourierType CourierType { get; set; }
     public ShipmentStatus Status { get; set; }
     public DateTime CreatedTimestamp { get; set; }
